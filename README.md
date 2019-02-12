@@ -15,8 +15,8 @@ If you don't want to use the automatic handling of loading/generating the noise 
   
 # Limitations
 Generating new noise is limited to the editor.<br>
-If the folder containing the noise textures contains <b>any other files</b>, it will not be loaded (additionally, the generator will discard the entire folder and create a new one).<br>
 Generated noise must be stored in the resources folder (so it can be loaded from script in built player).<br>
+If the folder containing the noise textures contains <b>any other files</b>, it will not be loaded (additionally, the generator will discard the entire folder and create a new one).<br>
 If you want to modify the way the perlin/worley noise is blended together, you need to modify the <i>CloudNoiseGen</i> shader.<br>
 Changing the texture import settings of the generated z slices is recommended against.
 
