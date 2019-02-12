@@ -32,5 +32,4 @@ Original work (GLSL-cellular-noise) Copyright (C) 2011 Stefan Gustavson <br>
 Translation and modification was made by Eric Arnebäck <br>
 Periodic modification was made by Felix Westin
 
-All source code is distributed under the MIT license.<br>
-See <i>CloudNoiseLib.cginc</i> for full details
+All source code is distributed under the MIT license (See <i>CloudNoiseLib.cginc</i> for full details).
