@@ -1,5 +1,7 @@
 # CloudNoiseGen
-A utility class for Unity which handles generating and loading cloud-like (perlin-worley) 3D noise textures for use with volumetric shaders. The noise is generated on the GPU, and so it is very fast.
+<img src="http://fewes.se/img/PerlinWorley.jpg" alt="Perlin-Worley noise"></img>
+
+A utility class for Unity which handles generating and loading periodic, cloud-like (perlin-worley) 3D noise textures for use with volumetric shaders. The noise is generated on the GPU, and so it is very fast.
 
 # Usage
 Use the <i>InitializeNoise</i> function to load/generate noise.
