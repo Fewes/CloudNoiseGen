@@ -152,7 +152,7 @@ float pnoise (float3 P, float3 rep)
 
 // ------------------------------ WORLEY NOISE START ------------------------------
 //
-// https://github.com/Erkaman/glsl-worley
+// Worley noise implementation for WebGL shaders - https://github.com/Erkaman/glsl-worley
 //
 // This software is released under the MIT license:
 
