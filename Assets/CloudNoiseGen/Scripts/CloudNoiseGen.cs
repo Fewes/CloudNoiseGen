@@ -1,4 +1,26 @@
-﻿using System.Collections;
+﻿// MIT License
+
+// Copyright (c) 2019 Felix Westin
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -23,9 +45,9 @@ public static class CloudNoiseGen
 	[System.Serializable]
 	public enum NoiseMode
 	{
-		Mix,
-		PerlinOnly,
-		WorleyOnly
+		Mix			= 0,
+		PerlinOnly	= 1,
+		WorleyOnly	= 2
 	}
 
 	[System.Serializable]
@@ -150,21 +172,7 @@ public static class CloudNoiseGen
 		var wasActive = RenderTexture.active;
 		UpdateGenerator();
 		generatorMat.SetFloat("_Slice", z);
-		generatorMat.DisableKeyword("MIX");
-		generatorMat.DisableKeyword("PERLIN");
-		generatorMat.DisableKeyword("WORLEY");
-		switch (noiseMode)
-		{
-			case NoiseMode.Mix:
-				generatorMat.EnableKeyword("MIX");
-			break;
-			case NoiseMode.PerlinOnly:
-				generatorMat.EnableKeyword("PERLIN");
-			break;
-			case NoiseMode.WorleyOnly:
-				generatorMat.EnableKeyword("WORLEY");
-			break;
-		}
+		generatorMat.SetInt("_Mode", (int)noiseMode);
 		Graphics.Blit(null, rt, generatorMat);
 		RenderTexture.active = wasActive;
 	}

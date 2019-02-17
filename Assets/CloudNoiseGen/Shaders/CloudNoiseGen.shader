@@ -1,3 +1,23 @@
+// MIT License
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 Shader "Hidden/CloudNoiseGen"
 {
 	SubShader
@@ -10,7 +30,6 @@ Shader "Hidden/CloudNoiseGen"
 
 			#include "UnityCG.cginc"
 			#include "CloudNoiseLib.cginc"
-			#pragma multi_compile MIX PERLIN WORLEY
 
 			struct v2f
 			{
@@ -43,8 +62,8 @@ Shader "Hidden/CloudNoiseGen"
 				{
 					value 		+= amplitude * pnoise(st, rep);
 					// st 			*= 2;
+					rep			*= 2; // Modify the repetition instead of the texture coordinates
 					amplitude 	*= 0.5;
-					rep			*= 2;
 				}
 
 				return value * 0.5 + 0.5; // [-1, 1] -> [0, 1]
@@ -61,8 +80,8 @@ Shader "Hidden/CloudNoiseGen"
 				{
 					value 		+= amplitude * (1 - worley(st, 1, false, rep).x);
 					// st 			*= 2;
+					rep			*= 2; // Modify the repetition instead of the texture coordinates
 					amplitude 	*= 0.5;
-					rep			*= 2;
 				}
 
 				return value;
@@ -75,6 +94,7 @@ Shader "Hidden/CloudNoiseGen"
 
 			float4 _PerlinParams;
 			float4 _WorleyParams;
+			int    _Mode;
 
 			#define _PerlinOctaves 		floor(_PerlinParams.x)
 			#define _PerlinPeriod 		floor(_PerlinParams.y)
@@ -106,15 +126,19 @@ Shader "Hidden/CloudNoiseGen"
 				worley = (worley-0.5) * _WorleyContrast + 0.5;
 				worley += _WorleyBrightness - 1;
 
-				#if MIX
+				if (_Mode == 0)
+				{
+					// This is where you would modify the way the Perlin and Worley noise are blended
 					color.rgb = worley - perlin * (1-worley);
-					// color.rgb = worley * lerp(perlin, 1, worley);
-					// color.rgb = remap(perlin, 1.0 - worley, 1.0, 0.0, 1.0);
-				#elif PERLIN
+				}
+				else if (_Mode == 1)
+				{
 					color.rgb = perlin;
-				#else // WORLEY
+				}
+				else
+				{
 					color.rgb = worley;
-				#endif
+				}
 				
 				color.a = 1;
 				return color;
